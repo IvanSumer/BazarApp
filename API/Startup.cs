@@ -1,3 +1,4 @@
+using Core.Interfaces;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -5,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using Infrastructure.Data;
+using Infrastructure.Repository;
 using Microsoft.EntityFrameworkCore;
 
 namespace API
@@ -20,9 +22,9 @@ namespace API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
+            services.AddScoped<IProductRepository, ProductRepository>();
             services.AddControllers();
-            services.AddDbContext<StoreContext>(options =>
+            services.AddDbContext<BazarContext>(options =>
                 options.UseSqlServer(_configuration.GetConnectionString("DefaultConnection")));
             services.AddSwaggerGen(c =>
             {
